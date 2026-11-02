@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Memória · Saudades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Lora:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css?v=4">
+</head>
+<body data-aviso="sensivel">
+<header class="topo">
+  <a class="marca" href="index.html">SAUDADES</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav id="menu" aria-label="Principal">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li class="tem-sub"><a href="vitimas.html">Cinco vidas</a>
+        <ul class="sub">
+          <li><a href="vitimas.html#keli">Keli</a></li>
+          <li><a href="vitimas.html#mirla">Mirla</a></li>
+          <li><a href="vitimas.html#murilo">Murilo</a></li>
+          <li><a href="vitimas.html#sarah">Sarah</a></li>
+          <li><a href="vitimas.html#anna-bela">Anna Bela</a></li>
+        </ul>
+      </li>
+      <li><a href="aquele-dia.html">Aquele Dia</a></li>
+      <li><a href="memoria.html" aria-current="page">Memória</a></li>
+      <li><a href="violencia-escolar.html">A Violência Escolar</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Memória</h1>
+  <p>Frase de apresentação da matéria em áudio.</p>
+
+  <div class="player" data-audio>
+    <!-- Arquivo em audio/. Para a onda real, abra o site por um servidor (não por duplo clique) -->
+    <audio preload="metadata"><source src="audio/memoria.mp3" type="audio/mpeg"></audio>
+    <div class="onda" role="slider" tabindex="0" aria-label="Posição do áudio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+    <div class="controles">
+      <button class="play" type="button">Ouvir</button>
+      <span class="tempo">0:00 / 0:00</span>
+    </div>
+  </div>
+
+  <!-- data-t = segundo em que cada trecho começa a ser falado -->
+  <div class="transcricao">
+    <p data-t="0">Primeiro trecho da fala. Substitua pela transcrição.</p>
+    <p data-t="12">Segundo trecho da fala.</p>
+    <p data-t="25">Terceiro trecho da fala.</p>
+  </div>
+</main>
+
+<script src="script.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cinco anos do ataque à creche Aquarela · Saudades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Lora:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css?v=4">
+</head>
+<body class="home">
+<header class="topo">
+  <a class="marca" href="index.html">SAUDADES</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav id="menu" aria-label="Principal">
+    <ul>
+      <li><a href="index.html" aria-current="page">Início</a></li>
+      <li class="tem-sub"><a href="vitimas.html">Cinco vidas</a>
+        <ul class="sub">
+          <li><a href="vitimas.html#keli">Keli</a></li>
+          <li><a href="vitimas.html#mirla">Mirla</a></li>
+          <li><a href="vitimas.html#murilo">Murilo</a></li>
+          <li><a href="vitimas.html#sarah">Sarah</a></li>
+          <li><a href="vitimas.html#anna-bela">Anna Bela</a></li>
+        </ul>
+      </li>
+      <li><a href="aquele-dia.html">Aquele Dia</a></li>
+      <li><a href="memoria.html">Memória</a></li>
+      <li><a href="violencia-escolar.html">A Violência Escolar</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="abertura">
+  <h1>SAUDADES</h1>
+  <p class="sub">Cinco anos do ataque à creche Aquarela (2021 – 2026)</p>
+</div>
+
+<!-- Fotos em preto e branco; ao passar o mouse a foto ganha cor e uma aquarela de várias cores toma a tela (script.js). Clicar leva à seção da pessoa em "Cinco vidas". -->
+<ul class="vitimas">
+  <li data-v="keli"><a href="vitimas.html?trilha#keli"><div class="pic"><div class="foto"><img src="imagens/keli.jpg" alt="Retrato de Keli"></div></div><span class="nome">Keli</span></a></li>
+  <li data-v="mirla"><a href="vitimas.html?trilha#mirla"><div class="pic"><div class="foto"><img src="imagens/mirla.jpg" alt="Retrato de Mirla"></div></div><span class="nome">Mirla</span></a></li>
+  <li data-v="murilo"><a href="vitimas.html?trilha#murilo"><div class="pic"><div class="foto"><img src="imagens/murilo.jpg" alt="Retrato de Murilo"></div></div><span class="nome">Murilo</span></a></li>
+  <li data-v="sarah"><a href="vitimas.html?trilha#sarah"><div class="pic"><div class="foto"><img src="imagens/sarah.jpg" alt="Retrato de Sarah"></div></div><span class="nome">Sarah</span></a></li>
+  <li data-v="anna-bela"><a href="vitimas.html?trilha#anna-bela"><div class="pic"><div class="foto"><img src="imagens/anna-bela.jpg" alt="Retrato de Anna Bela"></div></div><span class="nome">Anna Bela</span></a></li>
+</ul>
+<p class="dica">deslize para o lado e toque em uma foto</p>
+
+<script src="script.js?v=4"></script>
+</body>
+</html>
