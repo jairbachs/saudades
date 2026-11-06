@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saudades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Lora:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css?v=13">
+</head>
+<body data-aviso="sensivel" class="pagina-mapa">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="aquarela" x="-30%" y="-30%" width="160%" height="160%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="ruido"/>
+    <feDisplacementMap in="SourceGraphic" in2="ruido" scale="40" xChannelSelector="R" yChannelSelector="G" result="desl"/>
+    <feGaussianBlur in="desl" stdDeviation="5"/>
+  </filter>
+</svg>
+<header class="topo">
+  <a class="marca" href="index.html">SAUDADES</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav id="menu" aria-label="Principal">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li class="tem-sub"><a href="vitimas.html">Cinco vidas</a>
+        <ul class="sub">
+          <li><a href="vitimas.html#keli">Keli</a></li>
+          <li><a href="vitimas.html#mirla">Mirla</a></li>
+          <li><a href="vitimas.html#murilo">Murilo</a></li>
+          <li><a href="vitimas.html#sarah">Sarah</a></li>
+          <li><a href="vitimas.html#anna-bela">Anna Bela</a></li>
+        </ul>
+      </li>
+      <li class="tem-sub"><a href="aquele-dia.html" aria-current="page">Saudades</a>
+        <ul class="sub">
+          <li><a href="aquele-dia.html#desdobramentos">Desdobramentos</a></li>
+        </ul>
+      </li>
+      <li><a href="memoria.html">Memória</a></li>
+      <li><a href="violencia-escolar.html">A Violência Escolar</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="fundo-mapa" aria-hidden="true" data-alfa=".6"><canvas></canvas></div>
+
+<main id="dia">
+<section id="infografico" class="info" aria-label="Mapa infográfico interativo de Saudades, Santa Catarina">
+  <canvas class="info-gl" tabindex="0" role="application" aria-label="Mapa 3D interativo de Saudades. Arraste para girar, role ou use os botões para aproximar. Setas do teclado mudam de etapa."></canvas>
+  <canvas class="info-rot" aria-hidden="true"></canvas>
+  <div class="info-pinos"></div>
+  <div class="info-titulo"><h1>Saudades</h1><p class="lide">Conheça a cidade e detalhes do ataque</p></div>
+  <div class="info-ctl" role="group" aria-label="Controles do mapa">
+    <button type="button" class="c-mais" aria-label="Aproximar" title="Aproximar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button type="button" class="c-menos" aria-label="Afastar" title="Afastar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <button type="button" class="c-norte" aria-label="Voltar o norte para cima" title="Norte para cima"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l4 9-4-2-4 2z" fill="currentColor"/><path d="M12 14v7"/></svg></button>
+    <button type="button" class="c-topo" aria-label="Alternar entre vista de cima e inclinada" title="Vista de cima / inclinada"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l9-10 9 10"/><path d="M3 21h18"/></svg></button>
+    <button type="button" class="c-casa" aria-label="Voltar ao enquadramento da etapa" title="Voltar ao enquadramento da etapa"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></button>
+    <div class="c-epoca" role="group" aria-label="Momento da creche" hidden><button type="button" data-epoca="antes" aria-pressed="true">Antes</button><button type="button" data-epoca="hoje" aria-pressed="false">Hoje</button></div>
+  </div>
+  <aside class="hud" aria-live="polite">
+    <button type="button" class="b-min" aria-expanded="true" aria-label="Recolher ou abrir o texto" title="Recolher ou abrir o texto"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+    <p class="hud-fase"></p>
+    <h2 class="hud-titulo"></h2>
+    <p class="hud-hora" hidden></p>
+    <div class="hud-corpo"><div class="hud-texto"></div><p class="hud-fonte" hidden></p><a class="hud-link hiper" href="#" hidden></a></div>
+    <div class="hud-nav">
+      <button type="button" class="b-ant" aria-label="Etapa anterior" title="Etapa anterior"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="hud-meio"><div class="hud-pontos" role="group" aria-label="Etapas"></div><span class="hud-pos"></span></div>
+      <button type="button" class="b-seg" aria-label="Próxima etapa" title="Próxima etapa"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </aside>
+  <p class="info-aviso">Seu navegador não conseguiu abrir o mapa em 3D. Percorra as etapas pelo texto.</p>
+</section>
+<noscript><p class="creditos">Esta página usa JavaScript para mostrar o mapa interativo.</p></noscript>
+
+<script type="application/json" id="dados-dia">{
+ "passos": [
+  {
+   "fase": "A cidade",
+   "titulo": "Saudades",
+   "hora": "",
+   "texto": "O município de Saudades, está localizado no Oeste de Santa Catarina a cerca de 65 km de Chapecó, principal cidade da região, e a 630 km da capital do estado, Florianópolis. Atualmente, conforme dados do IBGE (2022), o município possui uma população estimada de 10.265 pessoas, majoritariamente residentes no perímetro urbano, atendidas por sete unidades educacionais no território.",
+   "fonte": "",
+   "foco": "cidade",
+   "pinos": [],
+   "rotas": []
+  },
+  {
+   "fase": "O autor",
+   "titulo": "A casa",
+   "hora": "",
+   "texto": "Foi no município que o autor do ataque nasceu e cresceu. Em uma residência de alvenaria, no bairro Morada do Sol, com o pai, jardineiro, a mãe, dona de casa, a irmã e a avó materna, além de um cachorro, gato e um coelho que corria pela casa. Descrito como um jovem com poucos amigos, introspectivo e fechado até mesmo com a família.",
+   "fonte": "",
+   "foco": "casa",
+   "pinos": [
+    "casa"
+   ],
+   "rotas": []
+  },
+  {
+   "fase": "O autor",
+   "titulo": "Rumo ao trabalho",
+   "hora": "05h – 9h15",
+   "texto": "Na terça-feira, 4 de maio de 2021, o autor saiu de casa, de maneira rotineira, para trabalhar. Ele era bordador em uma fábrica de roupas e calçados. Bateu o ponto às 5h e cumpriu a manhã de trabalho até o intervalo, às 9h15. Segundo um colega ouvido pela Zero Hora, nada no comportamento dele indicava o que faria horas depois. A polícia apurou que ele planejava o ataque havia cerca de dez meses e que as armas, duas adagas compradas pela internet, chegaram cinco dias antes.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "casa",
+     "trabalho"
+    ]
+   },
+   "pinos": [
+    "casa",
+    "trabalho"
+   ],
+   "rotas": [
+    "r1"
+   ]
+  },
+  {
+   "fase": "O autor",
+   "titulo": "De volta para casa",
+   "hora": "9h15",
+   "texto": "No intervalo, o autor pedalou cerca de nove minutos até em casa, onde lanchou e se arrumou. Dali, o jovem saiu de bicicleta, vestindo um moletom, máscara e mochila, rumo à creche.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "casa",
+     "trabalho"
+    ]
+   },
+   "pinos": [
+    "casa",
+    "trabalho"
+   ],
+   "rotas": [
+    "r1",
+    "r2"
+   ]
+  },
+  {
+   "fase": "O autor",
+   "titulo": "A caminho da creche",
+   "hora": "por volta das 10h",
+   "texto": "O autor chegou ao Centro de Educação Infantil Pró-Infância Aquarela, depois de cerca de oito minutos de bicicleta. Deixou a bicicleta junto a uma árvore e entrou pelo portão da frente, sem ser barrado. Um vizinho disse à Zero Hora que ele entrou como se fosse pai de aluno. Segundo o Ministério Público de Santa Catarina (MPSC), havia 40 pessoas no prédio, 21 funcionários e 19 crianças. A professora Solange resume a manhã: “Era normal. Normal. Normal.”",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "casa",
+     "acesso"
+    ]
+   },
+   "pinos": [
+    "acesso"
+   ],
+   "rotas": [
+    "r1",
+    "r2",
+    "r3"
+   ]
+  },
+  {
+   "fase": "A creche",
+   "titulo": "A entrada",
+   "hora": "",
+   "texto": "A entrada do autor chamou a atenção de uma agente educativa que trabalhava com Keli e Solange na Sala da Pré-escola. Solange lembra que o autor olhou para dentro da sala pelo vidro existente na porta e saiu do campo de visão dela.\n“Ela falou ‘tem um cara estranho entrando’. E ele entrou e veio até na minha porta. Olhou para dentro, olhou para a janela da outra sala e saiu do nosso campo de visão. A Keli saiu e disse ‘Eu vou ver o que que ele quer’. Disse isso e saiu normal. Daqui a uns dois ou três segundos escutei alguns gritos. Eu também saí, né? Quando eu cheguei, vi a Keli deitada no chão, lutando com ele. Eu tentei. A gente tenta de várias maneiras, né? Gritando alguma coisa pra ele parar, parar, parar. Mas ele não parava.”",
+   "fonte": "",
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "marca": "entrada"
+  },
+  {
+   "fase": "A creche",
+   "titulo": "A área coberta",
+   "hora": "",
+   "texto": "A agente educativa Mirla organizava o lanche das crianças e também foi atingida. Segundo Solange, era a única cumprindo essa rotina naquele momento: “Ela estava lá fora, servindo os pratos quando ele chegou.”",
+   "fonte": "",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "marca": "areacob2"
+  },
+  {
+   "fase": "A creche",
+   "titulo": "Pelos corredores",
+   "hora": "",
+   "texto": "Enquanto o autor percorria a creche, educadoras trancaram portas e janelas com as crianças dentro. Segundo o MPSC, ele tentou forçar a porta de uma sala com bebês e três educadoras, que a seguraram, e chutou o vidro de outra, a ponto de a perna entrar. Solange viu o vidro quebrar.\n“Ele voltou e deu um chute na minha [porta], que quebrou aquele vidro e a perna dele entrou na minha sala. E as crianças lá dentro. Eu, as crianças e a [nome preservado]. Depois ele foi pra lá de trás.”\nO mecânico Ezequiel Vargas Pimentel, que conhece a creche, diz que as portas abrem para fora, o que também pode ter dificultado a ação do autor.",
+   "fonte": "",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "pinos": [],
+   "rotas": [
+    "r10"
+   ],
+   "epoca": "antes"
+  },
+  {
+   "fase": "A creche",
+   "titulo": "A sala",
+   "hora": "",
+   "texto": "Na sala onde Mirla atuava, o autor encontrou quatro crianças. Três morreram: Sarah Luiza Mahle Sehn, Murilo Massing e Anna Bela Fernandes de Barros. E um menino de 1 ano e 8 meses, foi atingido, mas sobreviveu.",
+   "fonte": "",
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "link": {
+    "href": "vitimas.html",
+    "texto": "Conheça as histórias das vítimas"
+   },
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "marca": "sala"
+  },
+  {
+   "fase": "A vizinhança",
+   "titulo": "Pedido de ajuda",
+   "hora": "",
+   "texto": "Funcionárias saíram pelo portão lateral gritando por ajuda. Na casa em frente, uma agente educacional que trabalha à tarde, ouviu os gritos, ligou para a polícia e correu. Na oficina ao lado, o mecânico Ezequiel Vargas Pimentel não via o pátio, “Visão era zero, só mesmo escutar.” Ele ouviu barulhos de ferro e pedidos de socorro e correu para a frente da creche.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "cross",
+     "acesso"
+    ],
+    "dist": 150,
+    "yaw": -30,
+    "pit": 50
+   },
+   "pinos": [
+    "cross"
+   ],
+   "rotas": [],
+   "epoca": "antes"
+  },
+  {
+   "fase": "A vizinhança",
+   "titulo": "O primeiro a entrar",
+   "hora": "",
+   "texto": "Sem armas, Ezequiel foi o primeiro de fora a entrar na creche, segundo ele. Na frente havia cerca de dez pessoas. Ao saber que as crianças estavam lá dentro, entrou, “Eu não pensei duas vezes. Eu entrei.” Solange o reconheceu e pediu que trancasse o autor no banheiro. Na sala dos bebês, ele viu as crianças caídas, duas se mexiam, Murilo e o menino que sobreviveu, ele as tirou pelos braços.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "cross",
+     "sala"
+    ],
+    "dist": 120,
+    "yaw": -30,
+    "pit": 52
+   },
+   "pinos": [
+    "cross"
+   ],
+   "rotas": [
+    "r4"
+   ],
+   "epoca": "antes",
+   "marca": "sala"
+  },
+  {
+   "fase": "A creche",
+   "titulo": "O banheiro",
+   "hora": "",
+   "texto": "Depois de atacar as crianças, o autor entrou no banheiro da sala e, segundo o MPSC, detonou artefatos explosivos. Os estouros fizeram quem estava nas salas acreditar que ele tinha arma de fogo. Solange descreve o que sentiu, “Foi o terror aqueles minutos que ele tava ali dentro, porque eu achei que ele tinha arma de fogo.”",
+   "fonte": "",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "marca": "antiga_san"
+  },
+  {
+   "fase": "O socorro",
+   "titulo": "Rumo ao hospital",
+   "hora": "",
+   "texto": "Ezequiel entregou o menino que sobreviveu a uma professora e correu com Murilo, até a rotatória, onde a mulher dele chegou com o carro da oficina. No hospital, entrou gritando, “Liga pra bombeiro, liga pra polícia, liga pra quem vocês puder, porque tem alguém fazendo vítimas na creche e vai vim mais gente pro hospital.” A Zero Hora registra que a agente educativa, que mora em frente a creche, levou o menino que sobreviveu ao hospital, com o pai. Ele seria transferido pelo helicóptero da Polícia Civil ao Hospital Regional do Oeste (HRO), em Chapecó, e operado. Murilo não resistiu e morreu durante o atendimento em Saudades.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "acesso",
+     "hospital"
+    ]
+   },
+   "pinos": [
+    "acesso",
+    "hospital"
+   ],
+   "rotas": [
+    "r5"
+   ]
+  },
+  {
+   "fase": "O socorro",
+   "titulo": "O socorro",
+   "hora": "10h02",
+   "texto": "O primeiro pedido de socorro chegou ao 193, o telefone dos Bombeiros, às 10h02. Outras duas ligações vieram às 10h06 e 10h09. Duas equipes saíram, uma de Saudades e outra de Pinhalzinho. Do quartel de Saudades à creche são pouco mais de três minutos. A Polícia Militar também foi acionada.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "quartel",
+     "pm",
+     "acesso"
+    ]
+   },
+   "pinos": [
+    "quartel",
+    "pm",
+    "acesso"
+   ],
+   "rotas": [
+    "r6",
+    "r7"
+   ],
+   "link": {
+    "href": "memoria.html",
+    "texto": "Ouvir a reportagem em áudio"
+   }
+  },
+  {
+   "fase": "A creche",
+   "titulo": "A contenção",
+   "hora": "",
+   "texto": "Segundo o MPSC, os estouros fizeram recuar quem havia entrado. O autor foi até a entrada para tentar fugir, mas encontrou moradores, alguns com barras de ferro. Voltou à sala dos bebês, foi seguido e, encurralado, golpeou a si mesmo e caiu perto da porta. Ele foi contido por moradores e trabalhadores da vizinhança. Ezequiel, que voltava do hospital, diz que a arma já tinha sido chutada para longe e que alguém trouxe uma corda para amarrá-lo.",
+   "fonte": "",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "marca": "areacob2"
+  },
+  {
+   "fase": "A creche",
+   "titulo": "O solarium",
+   "hora": "",
+   "texto": "Ezequiel encontrou Mirla no solarium da sala, ainda viva, e chamou os socorristas: “Atravessa a sala, a profe lá do outro lado, que é a única que tem reação.”, disse ele. Mirla foi levada ao hospital e não resistiu. Keli e duas crianças morreram no local, segundo a Polícia Civil.",
+   "fonte": "",
+   "camera": {
+    "alvo": "creche",
+    "dist": 95,
+    "yaw": -25,
+    "pit": 55
+   },
+   "pinos": [],
+   "rotas": [],
+   "epoca": "antes",
+   "marca": "sol3"
+  },
+  {
+   "fase": "O socorro",
+   "titulo": "As famílias",
+   "hora": "",
+   "texto": "No hospital de Saudades, as famílias receberam a notícia. A mãe de Mirla, Neusa, soube por uma vizinha que alguém tinha entrado em uma escola, foi levada de carro à creche e de ambulância ao hospital, onde um médico confirmou a morte da filha. “Sabe quando tu coloca o dedo na tomada e te dá um choque de cima até embaixo? Eu nunca vou me esquecer disso”, diz. O pai, Marcos, caminhoneiro, descarregava combustível em Videira e seguiu para Chapecó. Laís, amiga de Keli, ouviu primeiro que um homem tinha entrado atirando e correu para a creche; Keli, diz ela, “foi uma das únicas que não apareceu”.",
+   "fonte": "",
+   "camera": {
+    "alvo": [
+     "acesso",
+     "hospital"
+    ]
+   },
+   "pinos": [
+    "acesso",
+    "hospital"
+   ],
+   "rotas": [
+    "r5"
+   ]
+  },
+  {
+   "fase": "Depois",
+   "titulo": "As horas seguintes",
+   "hora": "",
+   "fonte": "",
+   "texto": "Contido e ferido no pescoço, no abdômen e no tórax, em estado gravíssimo, segundo os Bombeiros, o autor foi levado pelos próprios Bombeiros ao hospital de Pinhalzinho.\nSob escolta, o autor foi transferido ao HRO, em Chapecó. Chegou sedado e intubado, passou por cirurgia abdominal e traqueostomia e ficou cerca de quatro dias na UTI.\nO delegado Jerônimo Marçal autuou o autor em flagrante por cinco homicídios triplamente qualificados e uma tentativa de homicídio. A prisão preventiva foi decretada em 5 de maio, e ele permaneceu sob custódia no hospital.",
+   "foco": "cidade",
+   "pinos": [
+    "acesso"
+   ],
+   "rotas": [],
+   "link": {
+    "acao": "desdobramentos",
+    "href": "#desdobramentos",
+    "texto": "Ler os desdobramentos"
+   }
+  }
+ ],
+ "creche3d": {
+  "altura": 72,
+  "espessura": 4,
+  "camera": {
+   "entrada": 75,
+   "entradaPit": 28,
+   "entradaDist": 60,
+   "sala": 20,
+   "salaPit": 56,
+   "salaDist": 34
+  },
+  "locais": [
+   {
+    "id": "base",
+    "nome": "",
+    "ret": [
+     50,
+     210,
+     460,
+     530
+    ],
+    "aberto": true
+   },
+   {
+    "id": "serv",
+    "nome": "serviço",
+    "ret": [
+     55,
+     20,
+     45,
+     80
+    ]
+   },
+   {
+    "id": "coz_a",
+    "nome": "cozinha",
+    "ret": [
+     100,
+     20,
+     80,
+     80
+    ]
+   },
+   {
+    "id": "coz_b",
+    "nome": "",
+    "ret": [
+     55,
+     100,
+     125,
+     110
+    ]
+   },
+   {
+    "id": "desp",
+    "nome": "despensa",
+    "ret": [
+     180,
+     130,
+     50,
+     80
+    ]
+   },
+   {
+    "id": "lav",
+    "nome": "lavanderia",
+    "ret": [
+     180,
+     20,
+     65,
+     80
+    ]
+   },
+   {
+    "id": "vest",
+    "nome": "vestiário",
+    "ret": [
+     180,
+     100,
+     65,
+     30
+    ]
+   },
+   {
+    "id": "sanit",
+    "nome": "sanitário",
+    "ret": [
+     245,
+     20,
+     65,
+     110
+    ]
+   },
+   {
+    "id": "lact",
+    "nome": "lactário",
+    "ret": [
+     230,
+     130,
+     80,
+     80
+    ]
+   },
+   {
+    "id": "almox1",
+    "nome": "almoxarifado",
+    "ret": [
+     310,
+     20,
+     60,
+     80
+    ]
+   },
+   {
+    "id": "amam",
+    "nome": "amamentação",
+    "ret": [
+     310,
+     100,
+     60,
+     110
+    ]
+   },
+   {
+    "id": "sanit2",
+    "nome": "sanit.",
+    "ret": [
+     370,
+     20,
+     70,
+     35
+    ]
+   },
+   {
+    "id": "dep",
+    "nome": "depósito",
+    "ret": [
+     440,
+     20,
+     70,
+     35
+    ]
+   },
+   {
+    "id": "creche2",
+    "nome": "creche II",
+    "ret": [
+     370,
+     55,
+     140,
+     155
+    ]
+   },
+   {
+    "id": "areacob1",
+    "nome": "área coberta",
+    "ret": [
+     50,
+     210,
+     240,
+     105
+    ],
+    "aberto": true
+   },
+   {
+    "id": "prof",
+    "nome": "professores",
+    "ret": [
+     50,
+     315,
+     115,
+     115
+    ]
+   },
+   {
+    "id": "pnem",
+    "nome": "PNE masc.",
+    "ret": [
+     165,
+     315,
+     65,
+     65
+    ]
+   },
+   {
+    "id": "pnef",
+    "nome": "PNE fem.",
+    "ret": [
+     165,
+     380,
+     65,
+     50
+    ]
+   },
+   {
+    "id": "circ1",
+    "nome": "circulação",
+    "ret": [
+     230,
+     315,
+     60,
+     115
+    ],
+    "aberto": true
+   },
+   {
+    "id": "almox2",
+    "nome": "almoxarifado",
+    "ret": [
+     50,
+     430,
+     55,
+     90
+    ]
+   },
+   {
+    "id": "adm",
+    "nome": "administração",
+    "ret": [
+     105,
+     430,
+     125,
+     90
+    ]
+   },
+   {
+    "id": "entrada",
+    "nome": "entrada",
+    "ret": [
+     50,
+     525,
+     180,
+     105
+    ],
+    "aberto": true
+   },
+   {
+    "id": "sanit_inf",
+    "nome": "sanit. infantil",
+    "ret": [
+     50,
+     630,
+     180,
+     65
+    ]
+   },
+   {
+    "id": "pre",
+    "nome": "pré-escola",
+    "ret": [
+     50,
+     695,
+     180,
+     135
+    ]
+   },
+   {
+    "id": "sol1",
+    "nome": "solarium",
+    "ret": [
+     50,
+     830,
+     90,
+     130
+    ],
+    "altura": 18
+   },
+   {
+    "id": "sol2",
+    "nome": "solarium",
+    "ret": [
+     140,
+     830,
+     90,
+     130
+    ],
+    "altura": 18
+   },
+   {
+    "id": "creche3",
+    "nome": "creche III",
+    "ret": [
+     230,
+     740,
+     100,
+     220
+    ]
+   },
+   {
+    "id": "sanit_inf2",
+    "nome": "sanit. infantil",
+    "ret": [
+     330,
+     740,
+     70,
+     220
+    ]
+   },
+   {
+    "id": "areacob3",
+    "nome": "área coberta",
+    "ret": [
+     400,
+     740,
+     300,
+     155
+    ],
+    "aberto": true
+   },
+   {
+    "id": "sol3",
+    "nome": "solarium",
+    "ret": [
+     510,
+     315,
+     80,
+     110
+    ],
+    "altura": 18
+   },
+   {
+    "id": "sol4",
+    "nome": "solarium",
+    "ret": [
+     590,
+     315,
+     95,
+     110
+    ],
+    "altura": 18
+   },
+   {
+    "id": "creche1",
+    "nome": "creche I",
+    "ret": [
+     510,
+     425,
+     110,
+     135
+    ]
+   },
+   {
+    "id": "creche1b",
+    "nome": "",
+    "ret": [
+     620,
+     425,
+     65,
+     75
+    ]
+   },
+   {
+    "id": "fraldario",
+    "nome": "fraldário",
+    "ret": [
+     510,
+     560,
+     110,
+     70
+    ]
+   },
+   {
+    "id": "repouso",
+    "nome": "repouso",
+    "ret": [
+     620,
+     500,
+     65,
+     130
+    ]
+   },
+   {
+    "id": "areacob2",
+    "nome": "área coberta",
+    "ret": [
+     230,
+     530,
+     280,
+     210
+    ],
+    "aberto": true
+   },
+   {
+    "id": "antiga_san",
+    "nome": "san. creche II",
+    "ret": [
+     290,
+     320,
+     220,
+     60
+    ],
+    "epoca": "antes"
+   },
+   {
+    "id": "sala",
+    "nome": "creche II",
+    "ret": [
+     290,
+     380,
+     220,
+     140
+    ],
+    "epoca": "antes"
+   },
+   {
+    "id": "parquinho",
+    "nome": "parquinho",
+    "ret": [
+     290,
+     255,
+     220,
+     265
+    ],
+    "aberto": true,
+    "epoca": "hoje"
+   },
+   {
+    "id": "sala",
+    "nome": "",
+    "ret": [
+     290,
+     380,
+     220,
+     140
+    ],
+    "aberto": true,
+    "epoca": "hoje",
+    "piso": true
+   },
+   {
+    "id": "b2_circ",
+    "nome": "circulação",
+    "ret": [
+     920,
+     250,
+     45,
+     570
+    ],
+    "aberto": true
+   },
+   {
+    "id": "b2_s1",
+    "nome": "sala de aula 1",
+    "ret": [
+     965,
+     250,
+     170,
+     190
+    ]
+   },
+   {
+    "id": "b2_s2",
+    "nome": "sala de aula 2",
+    "ret": [
+     965,
+     440,
+     170,
+     190
+    ]
+   },
+   {
+    "id": "b2_s3",
+    "nome": "sala de aula 3",
+    "ret": [
+     965,
+     630,
+     170,
+     190
+    ]
+   },
+   {
+    "id": "b3_circ",
+    "nome": "circulação",
+    "ret": [
+     1250,
+     35,
+     40,
+     735
+    ],
+    "epoca": "hoje",
+    "altura": 140,
+    "aberto": true
+   },
+   {
+    "id": "b3_s4",
+    "nome": "sala de aula 4",
+    "ret": [
+     1290,
+     35,
+     220,
+     200
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_esc",
+    "nome": "escada",
+    "ret": [
+     1290,
+     235,
+     120,
+     70
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_il",
+    "nome": "iluminação",
+    "ret": [
+     1410,
+     235,
+     100,
+     70
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_s5",
+    "nome": "sala de aula 5",
+    "ret": [
+     1290,
+     305,
+     220,
+     145
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_el",
+    "nome": "elevador",
+    "ret": [
+     1290,
+     450,
+     50,
+     85
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_pm",
+    "nome": "PNE masc.",
+    "ret": [
+     1340,
+     450,
+     45,
+     85
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_pf",
+    "nome": "PNE fem.",
+    "ret": [
+     1385,
+     450,
+     40,
+     85
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_san",
+    "nome": "sanitário",
+    "ret": [
+     1425,
+     450,
+     85,
+     85
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_c2",
+    "nome": "circulação",
+    "ret": [
+     1290,
+     535,
+     120,
+     50
+    ],
+    "epoca": "hoje",
+    "altura": 140,
+    "aberto": true
+   },
+   {
+    "id": "b3_il2",
+    "nome": "iluminação",
+    "ret": [
+     1410,
+     535,
+     100,
+     50
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "b3_s6",
+    "nome": "sala de aula 6",
+    "ret": [
+     1290,
+     585,
+     220,
+     185
+    ],
+    "epoca": "hoje",
+    "altura": 140
+   },
+   {
+    "id": "reserv",
+    "nome": "reservatório",
+    "ret": [
+     805,
+     15,
+     85,
+     85
+    ],
+    "altura": 190
+   }
+  ],
+  "alturaMuro": 2.2,
+  "plano": {
+   "origem": [
+    -16.14,
+    7.54
+   ],
+   "u": 0.038,
+   "ux0": 52,
+   "uy0": 20
+  },
+  "portoes": [
+   {
+    "nome": "Portão de acesso · Rua Claudino Rudiger",
+    "ux": -141,
+    "uy": 583,
+    "largura": 4.4
+   }
+  ],
+  "alturaMuroNorte": 3.5,
+  "aberturas": [
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 771.2,
+    "s1": 818.3,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 708.2,
+    "s1": 755.4,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 638.4,
+    "s1": 654.2,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 667.9,
+    "s1": 683.6,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 487.9,
+    "s1": 503.7,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 443.3,
+    "s1": 459.1,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 388.3,
+    "s1": 404.1,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 50,
+    "s0": 338.4,
+    "s1": 354.2,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 55,
+    "s0": 177.2,
+    "s1": 192.9,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 55,
+    "s0": 114.3,
+    "s1": 130.1,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 830,
+    "s0": 83.8,
+    "s1": 131.2,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 315,
+    "s0": 84.2,
+    "s1": 115.8,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 106.0,
+    "s1": 121.8,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 520,
+    "s0": 110.4,
+    "s1": 159.6,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 630,
+    "s0": 131.3,
+    "s1": 147.1,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 830,
+    "s0": 147.0,
+    "s1": 194.4,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 155.9,
+    "s1": 171.7,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 630,
+    "s0": 178.8,
+    "s1": 194.6,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 315,
+    "s0": 187.0,
+    "s1": 202.9,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 881.5,
+    "s1": 928.6,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 665.5,
+    "s1": 681.2,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 381.6,
+    "s1": 397.3,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 740,
+    "s0": 242.0,
+    "s1": 289.4,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 282.2,
+    "s1": 298.0,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 313.9,
+    "s1": 329.6,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 317.2,
+    "s1": 333.0,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 740,
+    "s0": 348.3,
+    "s1": 364.1,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 383.4,
+    "s1": 399.3,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 400,
+    "s0": 818.7,
+    "s1": 834.4,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 400,
+    "s0": 771.4,
+    "s1": 787.2,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 409.0,
+    "s1": 424.8,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 416.4,
+    "s1": 448.0,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 463.8,
+    "s1": 495.5,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 588.7,
+    "s1": 604.4,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 161.9,
+    "s1": 193.4,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 114.7,
+    "s1": 146.2,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 67.5,
+    "s1": 99.0,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 29.5,
+    "s1": 45.3,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 494.0,
+    "s1": 514.1,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 520,
+    "s0": 76.8,
+    "s1": 97.9,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 315,
+    "s0": 137.6,
+    "s1": 157.9,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 280.0,
+    "s1": 300.4,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 100,
+    "s0": 72.8,
+    "s1": 93.0,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 100,
+    "s0": 185.0,
+    "s1": 205.3,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 185.0,
+    "s1": 205.3,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 343.4,
+    "s1": 363.7,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 343.5,
+    "s1": 363.8,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 20,
+    "s0": 248.4,
+    "s1": 268.7,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 55,
+    "s0": 413.3,
+    "s1": 433.6,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 374.7,
+    "s1": 395.0,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 402.0,
+    "s1": 422.3,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 839.8,
+    "s1": 860.0,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 713.9,
+    "s1": 734.2,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 740,
+    "s0": 308.2,
+    "s1": 328.6,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 740,
+    "s0": 374.4,
+    "s1": 394.7,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 830,
+    "s0": 57.5,
+    "s1": 77.9,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 630,
+    "s0": 203.2,
+    "s1": 224.3,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 525.2,
+    "s1": 545.4,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 210,
+    "s0": 251.1,
+    "s1": 272.2,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 230,
+    "s0": 320.4,
+    "s1": 340.6,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "v",
+    "c": 180,
+    "s0": 158.8,
+    "s1": 178.9,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1
+   },
+   {
+    "ax": "h",
+    "c": 320,
+    "s0": 464.8,
+    "s1": 480.7,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "h",
+    "c": 320,
+    "s0": 374.9,
+    "s1": 390.8,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 347.5,
+    "s1": 363.4,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 378.0,
+    "s1": 393.9,
+    "tipo": "janela",
+    "sill": 1.5,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "h",
+    "c": 520,
+    "s0": 448.0,
+    "s1": 495.6,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "h",
+    "c": 520,
+    "s0": 384.5,
+    "s1": 432.1,
+    "tipo": "janela",
+    "sill": 1.0,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 379.3,
+    "s1": 400.5,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "h",
+    "c": 520,
+    "s0": 346.1,
+    "s1": 366.5,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1,
+    "epoca": "antes"
+   },
+   {
+    "ax": "v",
+    "c": 510,
+    "s0": 424.1,
+    "s1": 444.5,
+    "tipo": "porta",
+    "sill": 0,
+    "head": 2.1,
+    "epoca": "antes"
+   }
+  ],
+  "soProjeto": true
+ },
+ "mapa": {
+  "pontos": {
+   "casa": {
+    "nome": "casa (região)",
+    "coord": [
+     -53.00824970140776,
+     -26.92004140942949
+    ],
+    "area": true,
+    "yaw": 20,
+    "pit": 52,
+    "dist": 460
+   },
+   "trabalho": {
+    "nome": "trabalho",
+    "coord": [
+     -53.00101141924336,
+     -26.92854925891491
+    ],
+    "area": true,
+    "yaw": -30,
+    "pit": 52,
+    "dist": 460
+   },
+   "creche": {
+    "nome": "creche",
+    "coord": [
+     -52.99820488020973,
+     -26.9262019918835
+    ],
+    "mancha": true,
+    "yaw": -15,
+    "pit": 34,
+    "dist": 190
+   },
+   "cross": {
+    "nome": "Cross Motos",
+    "coord": [
+     -52.998033,
+     -26.925988
+    ],
+    "dist": 150,
+    "yaw": -30,
+    "pit": 50
+   },
+   "hospital": {
+    "nome": "Hospital de Saudades",
+    "coord": [
+     -53.002618,
+     -26.924977
+    ],
+    "dist": 500,
+    "yaw": 20,
+    "pit": 52
+   },
+   "quartel": {
+    "nome": "Corpo de Bombeiros",
+    "coord": [
+     -52.98959718626242,
+     -26.92655770455324
+    ],
+    "dist": 500
+   },
+   "pm": {
+    "nome": "Polícia Militar",
+    "coord": [
+     -52.990977,
+     -26.926238
+    ],
+    "dist": 500
+   }
+  },
+  "rotas": [
+   {
+    "id": "r1",
+    "tipo": "rua",
+    "pts": [
+     [
+      -53.00825,
+      -26.920041
+     ],
+     [
+      -53.008208,
+      -26.920032
+     ],
+     [
+      -53.008006,
+      -26.920426
+     ],
+     [
+      -53.00773,
+      -26.921403
+     ],
+     [
+      -53.007336,
+      -26.92203
+     ],
+     [
+      -53.007249,
+      -26.922126
+     ],
+     [
+      -53.006023,
+      -26.922483
+     ],
+     [
+      -53.005592,
+      -26.922667
+     ],
+     [
+      -53.004637,
+      -26.923142
+     ],
+     [
+      -53.004103,
+      -26.923766
+     ],
+     [
+      -53.003602,
+      -26.92413
+     ],
+     [
+      -53.003653,
+      -26.924288
+     ],
+     [
+      -53.003598,
+      -26.925116
+     ],
+     [
+      -53.002665,
+      -26.925534
+     ],
+     [
+      -53.00348,
+      -26.927412
+     ],
+     [
+      -53.000874,
+      -26.928381
+     ],
+     [
+      -53.000918,
+      -26.928547
+     ],
+     [
+      -53.001011,
+      -26.928549
+     ]
+    ]
+   },
+   {
+    "id": "r2",
+    "tipo": "rua",
+    "pts": [
+     [
+      -53.001011,
+      -26.928549
+     ],
+     [
+      -53.000918,
+      -26.928547
+     ],
+     [
+      -53.000874,
+      -26.928381
+     ],
+     [
+      -53.00348,
+      -26.927412
+     ],
+     [
+      -53.002665,
+      -26.925534
+     ],
+     [
+      -53.003598,
+      -26.925116
+     ],
+     [
+      -53.003653,
+      -26.924288
+     ],
+     [
+      -53.003602,
+      -26.92413
+     ],
+     [
+      -53.004103,
+      -26.923766
+     ],
+     [
+      -53.004637,
+      -26.923142
+     ],
+     [
+      -53.005592,
+      -26.922667
+     ],
+     [
+      -53.006023,
+      -26.922483
+     ],
+     [
+      -53.007249,
+      -26.922126
+     ],
+     [
+      -53.007336,
+      -26.92203
+     ],
+     [
+      -53.00773,
+      -26.921403
+     ],
+     [
+      -53.008006,
+      -26.920426
+     ],
+     [
+      -53.008208,
+      -26.920032
+     ],
+     [
+      -53.00825,
+      -26.920041
+     ]
+    ]
+   },
+   {
+    "id": "r3",
+    "tipo": "rua",
+    "pts": [
+     [
+      -53.00825,
+      -26.920041
+     ],
+     [
+      -53.008208,
+      -26.920032
+     ],
+     [
+      -53.008006,
+      -26.920426
+     ],
+     [
+      -53.00773,
+      -26.921403
+     ],
+     [
+      -53.007336,
+      -26.92203
+     ],
+     [
+      -53.007249,
+      -26.922126
+     ],
+     [
+      -53.006023,
+      -26.922483
+     ],
+     [
+      -53.005592,
+      -26.922667
+     ],
+     [
+      -53.004637,
+      -26.923142
+     ],
+     [
+      -53.004103,
+      -26.923766
+     ],
+     [
+      -53.002395,
+      -26.924962
+     ],
+     [
+      -53.00179,
+      -26.925278
+     ],
+     [
+      -53.000826,
+      -26.925855
+     ],
+     [
+      -52.998498,
+      -26.926064
+     ],
+     [
+      -52.998506,
+      -26.926455
+     ],
+     "acesso"
+    ]
+   },
+   {
+    "id": "r4",
+    "tipo": "rua",
+    "pts": [
+     [
+      -52.998033,
+      -26.925988
+     ],
+     [
+      -52.998083,
+      -26.925993
+     ],
+     [
+      -52.998084,
+      -26.926136
+     ],
+     [
+      -52.998498,
+      -26.926064
+     ],
+     [
+      -52.998506,
+      -26.926455
+     ],
+     "acesso",
+     {
+      "u": [
+       50,
+       577
+      ]
+     },
+     {
+      "u": [
+       240,
+       577
+      ]
+     },
+     {
+      "u": [
+       262,
+       520
+      ]
+     },
+     {
+      "u": [
+       262,
+       475
+      ]
+     },
+     {
+      "u": [
+       310,
+       475
+      ]
+     }
+    ]
+   },
+   {
+    "id": "r5",
+    "tipo": "rua",
+    "pts": [
+     "acesso",
+     [
+      -52.998506,
+      -26.926455
+     ],
+     [
+      -52.998498,
+      -26.926064
+     ],
+     [
+      -53.000826,
+      -26.925855
+     ],
+     [
+      -53.002522,
+      -26.924874
+     ],
+     [
+      -53.002618,
+      -26.924977
+     ]
+    ]
+   },
+   {
+    "id": "r6",
+    "tipo": "rua",
+    "pts": [
+     [
+      -52.9895972,
+      -26.9265577
+     ],
+     [
+      -52.9896507,
+      -26.9263803
+     ],
+     [
+      -52.9912929,
+      -26.9267479
+     ],
+     [
+      -52.9912971,
+      -26.9262405
+     ],
+     [
+      -52.997348,
+      -26.9262051
+     ],
+     [
+      -52.9978184,
+      -26.9261774
+     ],
+     [
+      -52.9984979,
+      -26.9260638
+     ],
+     [
+      -52.9985058,
+      -26.9264552
+     ],
+     "acesso"
+    ]
+   },
+   {
+    "id": "r7",
+    "tipo": "rua",
+    "pts": [
+     [
+      -52.990977,
+      -26.926238
+     ],
+     [
+      -52.997348,
+      -26.926205
+     ],
+     [
+      -52.997818,
+      -26.926177
+     ],
+     [
+      -52.998498,
+      -26.926064
+     ],
+     [
+      -52.998506,
+      -26.926455
+     ],
+     "acesso"
+    ]
+   },
+   {
+    "id": "r10",
+    "tipo": "planta",
+    "pts": [
+     {
+      "u": [
+       370,
+       640
+      ]
+     },
+     {
+      "u": [
+       480,
+       690
+      ]
+     },
+     {
+      "u": [
+       720,
+       690
+      ]
+     },
+     {
+      "u": [
+       720,
+       285
+      ]
+     },
+     {
+      "u": [
+       260,
+       285
+      ]
+     },
+     {
+      "u": [
+       262,
+       500
+      ]
+     },
+     {
+      "u": [
+       300,
+       560
+      ]
+     },
+     {
+      "u": [
+       300,
+       717
+      ]
+     },
+     {
+      "u": [
+       235,
+       717
+      ]
+     },
+     {
+      "u": [
+       140,
+       760
+      ]
+     }
+    ]
+   }
+  ],
+  "estado": {
+   "cidades": [
+    {
+     "nome": "Saudades",
+     "coord": [
+      -53.0035,
+      -26.9235
+     ],
+     "maior": true
+    }
+   ]
+  },
+  "mapaBase": null
+ },
+ "exagero": 1
+}</script>
+
+  <section class="desdobramentos" id="desdobramentos" aria-label="Desdobramentos" hidden>
+    <h3>A despedida</h3>
+    <p>Os corpos das cinco vítimas voltaram a Saudades na madrugada de 5 de maio, depois da passagem pelo IML de Chapecó. As famílias esperavam a chegada por volta das 23h, e Silvana Ester Helfer, prima de Keli, lembra que os caixões só chegaram perto da 1h.</p>
+    <p class="fala">“Quando ela chegou, eu fui perto do caixão, mas eu corri pro banheiro, vomitei. Eu passei mal. Até então, na minha cabeça eu pensava, ‘Não, pode ser que é mentira. Eu tô vivendo um sonho. Eu tô vivendo uma loucura, um pesadelo.’ Mas ver ela ali, daí parece que caiu de verdade a ficha.”</p>
+    <p>Neusa Renner da Costa guardou o carinho dos amigos da filha que vieram, principalmente de Pinhalzinho. “Eles vinham com faixa, com cartazes, com coisas escritas. Eles vinham pra mim e diziam, ‘Meu Deus, a filha de vocês era muito amada’. A gente amava ela”, recorda.</p>
+    <p>O velório foi coletivo, no ginásio do Parque de Exposições Theobaldo Hermes, com protocolos contra a covid-19 que a dor e a aglomeração tornaram difíceis de seguir. Mais de mil pessoas passaram pelo local. A missa, às 9h, foi celebrada pelo bispo da Diocese de Chapecó, Dom Odelir José Magri. Por volta das 10h50, os cinco caixões seguiram em cortejo, por cerca de 300 metros, até o Cemitério Municipal. O governo catarinense decretou luto oficial de três dias. A prefeitura decretou luto, suspendeu as aulas da rede municipal e pediu reforço policial.</p>
+
+    <h3>A investigação</h3>
+    <p>Enquanto família e amigos enterravam seus entes queridos, o autor seguia sob custódia no hospital. Ele foi autuado em flagrante pelo delegado Jerônimo Marçal, a prisão preventiva foi decretada em 5 de maio, e uma semana depois, em 12 de maio foi levado ao Presídio Regional de Chapecó. A Polícia Civil concluiu que ele planejou o crime sozinho, ao longo de meses, e pretendia se matar depois.</p>
+    <p>Hoje afastado da corporação, o delegado diz que a investigação foi simples do ponto de vista técnico. “Tecnicamente, ela não foi difícil. [...] Tudo se mostrou muito claro, e o que não tava tão claro de cara não foi difícil de descobrir depois, com a investigação.”</p>
+    <p>O que pesou, segundo ele, foi o entorno. “O desafio foi a pressão externa. Era muita, muita gente olhando, muita gente querendo saber, e aí você tem que se desdobrar. Eu não queria que achassem que eu era o cara sanguinário, que quer justiçamento. Não é o nosso papel, o nosso papel é técnico.”</p>
+    <p>Em 21 de maio, o Ministério Público de Santa Catarina denunciou o autor por cinco homicídios consumados e 14 tentados. O juiz Caio Lemgruber Taborda aceitou a denúncia três dias depois. A defesa pediu exame de sanidade mental, e o pedido foi negado mais de uma vez. O processo só foi suspenso depois que a defesa apresentou o parecer de um médico particular apontando transtorno mental. Os laudos que se seguiram chegaram a conclusões diferentes, e o caso foi a júri.</p>
+
+    <h3>A volta à creche</h3>
+    <p>A creche ficou fechada por 20 dias. Moradores se voluntariaram para pintar e limpar o prédio, e a sala onde as crianças foram atacadas foi transformada. As aulas voltaram em 24 de maio, com 74 alunos.</p>
+    <p class="fala">“A gente é muito grato pela administração por ter mudado toda a fachada, porque a cada vez que tu vê uma fachada parecida, tu volta a data. Foi muito explorada via imprensa a fachada do Aquarela. Foi muito marcada pra nós. Então, a mudança de visual ali foi muito, muito positiva”, comenta Solange.</p>
+    <p>A segurança passou a ser outro assunto. Hoje a creche tem guarda. Ezequiel, o mecânico que entrou no prédio durante o ataque, comenta a mudança.</p>
+    <p class="fala">“As creches foram obrigadas a ter guardas, antes elas não tinham, e não tem culpado pra isso. Pelo amor de Deus, nós precisamos ter a necessidade de ter um guarda numa creche que tem criança. Isso, pra mim, é o fim. Mas, agora já é mais seguro, é fechado toda a creche, tem um guarda, então já é um pouco mais tranquilo.”</p>
+    <p>Apesar disso Solange diz que o medo não passou. “Às vezes disparam alarmes, e lá fora recolhe todos, porque você não sabe, mesmo tendo segurança. Pode ser uma pessoa, pode ser duas pessoas que podem entrar. A gente nunca está seguro cem por cento.”</p>
+    <p>O delegado, que conversou na época com deputados e com a cúpula do MPSC e do TJSC sobre o que poderia mudar, não sabe dizer se a discussão rendeu.</p>
+    <p class="fala">“Eu lembro de se falar de aumentar a segurança nas escolas. Eu acho que isso foi feito. Eu não acompanhei depois. [...] Eu fiquei com uma sensação, mas pode ter sido uma sensação falsa, sem fundamento, a sociedade não mudou, não se fez muita coisa pra prevenir casos assim.”</p>
+
+    <a class="cta-pequeno cta-meio" href="violencia-escolar.html"><span class="rotulo">Para assistir</span><strong>Matéria em vídeo</strong><span class="chamada">A reportagem em imagens.</span></a>
+
+    <p>Para Solange, voltar ao prédio não foi o mais difícil.</p>
+    <p class="fala">“O mais difícil não foi logo voltar. Foi o psicológico. Primeiro, as duas, três semanas era uma euforia, porque você estava viva, e depois o inconsciente começou a entender. Eu me cobrava muito. Qualquer motivo era motivo de choro. Isso foi um ano e meio, quase dois anos, até que estabilizou de novo.”</p>
+    <p>O cuidado com a saúde mental veio por etapas e não alcançou todos da mesma forma. Solange afirma que a rede de psicólogas da região e as sessões de reiki oferecidas por uma clínica ajudaram, mas que o atendimento demorou a chegar às profissionais da creche. “Quando nós retornamos, nem todas as pessoas foram atendidas no primeiro momento. Também foi bastante restrito às famílias, que acho que também era fundamental naquele momento. Quando chegou a equipe que o Estado formou, aí conseguiu atender todo mundo nas escolas. Teve algumas assistentes sociais que vieram também e foram fundamentais.”</p>
+    <p>Ezequiel foi atendido gratuitamente por uma psicóloga da vizinhança durante dois ou três meses e ainda carrega o peso do dia. “Parece que eu deveria ter feito mais, que eu deveria ter salvado mais alguém. Eu tô sempre me cobrando. Isso acaba me corroendo às vezes.”</p>
+    <p>A família do menino que sobreviveu o procurou depois, conta ele. “Eu mesmo não procurei eles, mas eles me procuraram, me agradeceram, me deixaram uma Bíblia, e eu agradeci muito. Tenho ela guardada até hoje, vou ter guardado pro resto da minha vida.”</p>
+    <p>O psicólogo paulistano Luis Picazio Neto, especialista em atendimento a tragédias, entrou nessa história por indicação de uma assistente social que repassou seu contato à prefeitura. Ele diz que propôs começar pelas famílias e depois ampliar o apoio às professoras, com uma mudança física do espaço.</p>
+    <p class="fala">“Revitalização da creche, mudar o nome, aonde as crianças morreram, deixar de ser uma sala de aula e passar a ser um lugar, um jardim, uma praça, qualquer coisa assim.”, relembra.</p>
+    <p>Ele fez uma palestra online para as professoras e se ofereceu para ir a Saudades, mas a visita não aconteceu. Relata que insistiu e que a resposta foi esfriando.</p>
+    <p>Hoje há guarda nas escolas do município, lembra Silvana. Em junho de 2021, a prefeitura anunciou a intenção de erguer um memorial junto com uma nova unidade de ensino.</p>
+
+    <h3>O dinheiro e a Justiça</h3>
+    <p>A indenização virou assunto em dezembro de 2021, quando a Lei Municipal nº 2.415 autorizou a prefeitura a pagar R$ 200 mil aos pais das vítimas fatais, desde que renunciassem a qualquer nova indenização e a pensão. Os pais de Keli foram os únicos que não aceitaram de imediato, porque tinham direito a pensão. Laís, amiga de Keli, foi chamada a uma audiência sobre o tema e conta o que sabe.</p>
+    <p class="fala">“Judicialmente, sinceramente, eu nunca procurei me informar. Não sei o que aconteceu com cada família. Eu só sei te dizer que uma vez eu fui chamada para uma audiência sobre os pais da Keli receberem o auxílio dela. Porque ela morava em casa e auxiliava muito eles e, como eu te disse, ela não tinha planos, ideias de sair, porque ela sempre gostava muito de estar ali apoiando eles”, explica.</p>
+    <p>Os pais de Keli processaram o município (processo nº 5003717-70.2022.8.24.0049). Pediram R$ 1.302.000 em danos morais, R$ 651 mil para cada um, equivalente a 500 salários mínimos. Pediram também pensão vitalícia de R$ 999,69 mensais com abono anual até a data em que ela completaria 65 anos, tratamento psicológico e psiquiátrico vitalício e a declaração de inconstitucionalidade parcial da lei, por condicionar o pagamento à renúncia ao direito de ação.</p>
+    <p>Em primeira instância, o pedido foi acolhido em parte, R$ 100 mil de dano moral para cada genitor e pensão equivalente a um terço do salário-base do cargo de agente educativo à época do fato, até os 65 anos que Keli completaria ou a morte dos pais, o que ocorresse primeiro. O tribunal elevou o dano moral para R$ 150 mil por genitor, R$ 300 mil no total.</p>
+
+    <h3>O julgamento</h3>
+    <p>O autor foi a júri em 9 e 10 de agosto de 2023, em Pinhalzinho, diante de sete jurados, seis mulheres e um homem. Ficou em silêncio. Sobreviventes e testemunhas de acusação e de defesa foram ouvidos. Os pais de Mirla acompanharam o julgamento. Neusa resume o que sentiu dentro do fórum.</p>
+    <p class="fala">“É difícil, muito. A gente nunca pensou que ia passar por uma coisa dessa. E entrar num fórum na minha vida, nunca pensei na minha vida, entrar num fórum. Mas uma coisa dessa... Ah, isso é horrível. Tenho que falar, porque é muito difícil.”</p>
+    <p>Na noite do segundo dia, o juiz leu a sentença, 329 anos e 4 meses em regime fechado, além de indenização mínima de R$ 500 mil a cada família de vítima fatal. O limite legal de cumprimento no país é de 40 anos. No fim de 2023, o TJSC negou novo pedido de laudo psiquiátrico e manteve a pena.</p>
+
+    <h3>O que fica</h3>
+    <p>Laís descreve a cidade pelo mesmo caminho e termina pelo nome dela. “A vida das pessoas mudou. Todo mundo mudou. A cidade ficou deprimida. A gente vê até hoje. A dor não passa. Você assimila muito com o nome da nossa cidade: Saudade. Tem gente que associa saudade com coisa boa, mas no caso da morte é uma coisa que só fica as lembranças. Apesar de cinco, eu acredito que pode passar cinquenta anos. O que eu vivi com ela foi uma história que não tem como esquecer, não tem como apagar.”</p>
+    <p>O que fazer com a memória do caso divide a cidade. Em junho de 2021, a prefeitura anunciou a intenção de erguer um memorial junto com um novo centro educacional. Em 4 de maio de 2022, houve um ato em frente à creche, com soltura de balões brancos.</p>
+    <p>Solange diz que a escola parou com as cerimônias por escolha de quem trabalha lá. “Faz dois anos que nós não fizemos mais, porque isso também machuca. É uma dor que tu tem ali, que tu não precisa mais ficar cutucando volta e meia. Tem pessoas que doem mais, tem pessoas que dói menos. Não tem como julgar. Cada pessoa é uma pessoa”, destaca.</p>
+
+    <a class="cta-pequeno cta-meio" href="memoria.html"><span class="rotulo">Para ouvir</span><strong>Matéria em áudio</strong><span class="chamada">O pedido de socorro e as vozes de Saudades.</span></a>
+
+    <p>Para Neusa, o problema é o memorial prometido. “O memorial já era pra tá pronto. Até hoje, nada. Já podia estar pronto, pelo menos pra uma coisa, pra quem passar ali, pelo menos ver e daí lembra.”</p>
+    <p>Apesar da dor, a vida segue. Marcos e Neusa esperam hoje na fila de adoção. Segundo ela, a ideia vem de antes do ataque. “Vida inteira ele sempre falava: ‘Ah, nós podia adotar alguém, né? Adotar um piazinho’. E daí, naquele ano mesmo, a gente foi atrás.”</p>
+    <p>Eles fizeram cursos durante um ano e conversaram com um psicólogo. Estão na expectativa há quase quatro anos.</p>
+  </section>
+
+<p class="creditos">Relevo, ruas, prédios, vegetação e água de Saudades: arquivo urbano do município (DXF) e OpenStreetMap. A creche foi modelada a partir do Projeto Executivo. O relevo está em escala real, a plataforma do terreno foi nivelada e os trajetos seguem as ruas pelo caminho mais curto, não o percurso confirmado. Portas e janelas da creche seguem a planta atual do CEI Aquarela; as da Creche II e do sanitário, a planta do Projeto Tipo C. Os prédios da área ampliada a leste têm altura estimada por tipo de uso.</p>
+
+</main>
+
+<script src="cena.js?v=2"></script>
+<script src="fundo-mapa.js?v=1"></script>
+<script src="script.js?v=10"></script>
+<script src="infografico.js?v=14"></script>
+</body>
+</html>

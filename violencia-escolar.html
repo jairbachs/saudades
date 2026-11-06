@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Violência Escolar · Saudades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Lora:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css?v=13">
+</head>
+<body class="cinema" data-aviso="sensivel">
+<header class="topo">
+  <a class="marca" href="index.html">SAUDADES</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav id="menu" aria-label="Principal">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li class="tem-sub"><a href="vitimas.html">Cinco vidas</a>
+        <ul class="sub">
+          <li><a href="vitimas.html#keli">Keli</a></li>
+          <li><a href="vitimas.html#mirla">Mirla</a></li>
+          <li><a href="vitimas.html#murilo">Murilo</a></li>
+          <li><a href="vitimas.html#sarah">Sarah</a></li>
+          <li><a href="vitimas.html#anna-bela">Anna Bela</a></li>
+        </ul>
+      </li>
+      <li class="tem-sub"><a href="aquele-dia.html">Saudades</a>
+        <ul class="sub">
+          <li><a href="aquele-dia.html#desdobramentos">Desdobramentos</a></li>
+        </ul>
+      </li>
+      <li><a href="memoria.html">Memória</a></li>
+      <li><a href="violencia-escolar.html" aria-current="page">A Violência Escolar</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="cinema">
+  <h1>A Violência Escolar</h1>
+  <video controls preload="metadata" poster="imagens/capa-video.jpg">
+    <source src="video/violencia-escolar.mp4" type="video/mp4">
+    <track kind="captions" src="video/violencia-escolar.pt-BR.vtt" srclang="pt-BR" label="Português" default>
+    Seu navegador não reproduz vídeo.
+  </video>
+  <nav class="ctas-midia" aria-label="Outros formatos desta reportagem">
+    <a class="cta-pequeno" href="vitimas.html"><span class="rotulo">Para ler</span><strong>As histórias das vítimas</strong><span class="chamada">Keli, Mirla, Murilo, Sarah e Anna Bela.</span></a>
+    <a class="cta-pequeno" href="aquele-dia.html"><span class="rotulo">Para explorar</span><strong>Saudades</strong><span class="chamada">A cidade e a creche em 3D.</span></a>
+    <a class="cta-pequeno" href="memoria.html"><span class="rotulo">Para ouvir</span><strong>Matéria em áudio</strong><span class="chamada">O pedido de socorro e as vozes de Saudades.</span></a>
+  </nav>
+</main>
+
+<script src="script.js?v=4"></script>
+</body>
+</html>

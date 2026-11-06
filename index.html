@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Lora:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="estilo.css?v=4">
+<link rel="stylesheet" href="estilo.css?v=13">
 </head>
 <body class="home">
 <header class="topo">
@@ -25,19 +25,24 @@
           <li><a href="vitimas.html#anna-bela">Anna Bela</a></li>
         </ul>
       </li>
-      <li><a href="aquele-dia.html">Aquele Dia</a></li>
+      <li class="tem-sub"><a href="aquele-dia.html">Saudades</a>
+        <ul class="sub">
+          <li><a href="aquele-dia.html#desdobramentos">Desdobramentos</a></li>
+        </ul>
+      </li>
       <li><a href="memoria.html">Memória</a></li>
       <li><a href="violencia-escolar.html">A Violência Escolar</a></li>
     </ul>
   </nav>
 </header>
 
+<div class="fundo-mapa" aria-hidden="true" data-alfa=".45"><canvas></canvas></div>
+
 <div class="abertura">
   <h1>SAUDADES</h1>
   <p class="sub">Cinco anos do ataque à creche Aquarela (2021 – 2026)</p>
 </div>
 
-<!-- Fotos em preto e branco; ao passar o mouse a foto ganha cor e uma aquarela de várias cores toma a tela (script.js). Clicar leva à seção da pessoa em "Cinco vidas". -->
 <ul class="vitimas">
   <li data-v="keli"><a href="vitimas.html?trilha#keli"><div class="pic"><div class="foto"><img src="imagens/keli.jpg" alt="Retrato de Keli"></div></div><span class="nome">Keli</span></a></li>
   <li data-v="mirla"><a href="vitimas.html?trilha#mirla"><div class="pic"><div class="foto"><img src="imagens/mirla.jpg" alt="Retrato de Mirla"></div></div><span class="nome">Mirla</span></a></li>
@@ -47,6 +52,7 @@
 </ul>
 <p class="dica">deslize para o lado e toque em uma foto</p>
 
-<script src="script.js?v=4"></script>
+<script src="fundo-mapa.js?v=1"></script>
+<script src="script.js?v=10"></script>
 </body>
 </html>
