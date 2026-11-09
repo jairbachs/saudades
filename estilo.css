@@ -504,3 +504,5 @@ section.desdobramentos { max-width: 43rem; margin: 5rem auto 4rem; padding: 2.6r
 .pagina-audio .player iframe { display: block; width: 100%; height: 166px; border: 0; filter: invert(1) hue-rotate(180deg); }
 .sc-credito { margin: .6rem 0 0; font-size: .7rem; color: #8a8a8a; text-align: left; }
 .sc-credito a { color: #8a8a8a; text-decoration: none; }
+.pessoa > .lide { hyphens: none; -webkit-hyphens: none; text-align: left; }
+.vitima > .polaroid + p, .vitima > .foto-link + p, .vitima > .polaroid + .colagem + p { margin-top: 1.1rem; }
