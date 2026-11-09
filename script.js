@@ -110,22 +110,9 @@ const notas = () => $$('details.nota').forEach(d => { d.open = mq.matches; });
 notas(); mq.addEventListener('change', notas);
 
 const player = $('[data-audio]');
-if (player) {
-  const audio = $('audio', player), onda = $('.onda', player), play = $('.play', player), tempo = $('.tempo', player);
+const iframeSom = player && $('iframe', player);
+if (iframeSom) {
   const linhas = $$('.transcricao p[data-t]');
-  const N = 96;
-  const fmt = s => { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
-  const pintar = () => {
-    const r = audio.duration ? audio.currentTime / audio.duration : 0;
-    $$('span', onda).forEach((s, i) => s.classList.toggle('tocado', i < r * N));
-    tempo.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
-    onda.setAttribute('aria-valuenow', Math.round(r * 100));
-    let atual = -1;
-    linhas.forEach((l, i) => { if (+l.dataset.t <= audio.currentTime) atual = i; });
-    linhas.forEach((l, i) => { l.classList.toggle('atual', i === atual); l.classList.toggle('passou', i < atual); });
-    if (atual !== ultima) { ultima = atual; acompanha(linhas[atual]); }
-  };
-
   const caixa = $('.transcricao');
   let ultima = -1, solta = 0;
   const acompanha = l => {
@@ -133,39 +120,22 @@ if (player) {
     caixa.scrollTo({ top: Math.max(0, l.offsetTop - caixa.offsetTop - caixa.clientHeight * .3), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
   if (caixa) ['wheel', 'touchstart', 'keydown'].forEach(e => caixa.addEventListener(e, () => { solta = Date.now() + 5000; }, { passive: true }));
-  const barras = picos => {
-    onda.innerHTML = '';
-    picos.forEach(p => { const s = document.createElement('span'); s.style.setProperty('--h', Math.max(6, p * 100) + '%'); onda.appendChild(s); });
-    pintar();
+  const marca = t => {
+    let atual = -1;
+    linhas.forEach((l, i) => { if (+l.dataset.t <= t) atual = i; });
+    linhas.forEach((l, i) => { l.classList.toggle('atual', i === atual); l.classList.toggle('passou', i < atual); });
+    if (atual !== ultima) { ultima = atual; acompanha(linhas[atual]); }
   };
-
-  barras(Array.from({ length: N }, (_, i) => 0.25 + 0.55 * Math.abs(Math.sin(i * 0.37) * Math.cos(i * 0.11)) + 0.1 * Math.abs(Math.sin(i * 1.7))));
-  const ondaReal = () => { const u = audio.currentSrc; if (!u) return; fetch(u).then(r => r.arrayBuffer())
-    .then(b => new (window.AudioContext || window.webkitAudioContext)().decodeAudioData(b))
-    .then(buf => {
-      const d = buf.getChannelData(0), passo = Math.floor(d.length / N), picos = [];
-      for (let i = 0; i < N; i++) { let m = 0; for (let j = i * passo; j < (i + 1) * passo; j += Math.max(1, Math.floor(passo / 200))) m = Math.max(m, Math.abs(d[j])); picos.push(m); }
-      const max = Math.max(...picos) || 1;
-      barras(picos.map(p => p / max));
-    }).catch(() => {}); };
-  audio.addEventListener('loadedmetadata', ondaReal, { once: true });
-  play.addEventListener('click', () => audio.paused ? audio.play() : audio.pause());
-  audio.addEventListener('play', () => { play.textContent = 'Pausar'; });
-  audio.addEventListener('pause', () => { play.textContent = 'Ouvir'; });
-  audio.addEventListener('timeupdate', pintar);
-  audio.addEventListener('loadedmetadata', pintar);
-  onda.addEventListener('click', e => { const b = onda.getBoundingClientRect(); if (audio.duration) audio.currentTime = ((e.clientX - b.left) / b.width) * audio.duration; });
-  onda.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') audio.currentTime += 5;
-    if (e.key === 'ArrowLeft') audio.currentTime -= 5;
-  });
-  linhas.forEach(l => l.addEventListener('click', () => { audio.currentTime = +l.dataset.t; audio.play(); }));
-}
-
-const video = $('.cinema video');
-if (video) {
-  video.addEventListener('play', () => document.body.classList.add('tocando'));
-  ['pause', 'ended'].forEach(e => video.addEventListener(e, () => document.body.classList.remove('tocando')));
+  const iniciar = () => {
+    const w = SC.Widget(iframeSom);
+    const ev = SC.Widget.Events;
+    w.bind(ev.PLAY_PROGRESS, e => marca(e.currentPosition / 1000));
+    w.bind(ev.SEEK, e => marca(e.currentPosition / 1000));
+    w.bind(ev.FINISH, () => marca(1e6));
+    linhas.forEach(l => l.addEventListener('click', () => { w.seekTo(+l.dataset.t * 1000); w.play(); }));
+  };
+  if (window.SC) iniciar();
+  else { const s = document.createElement('script'); s.src = 'https://w.soundcloud.com/player/api.js'; s.onload = iniciar; document.head.appendChild(s); }
 }
 
 (() => {
