@@ -506,3 +506,6 @@ section.desdobramentos { max-width: 43rem; margin: 5rem auto 4rem; padding: 2.6r
 .sc-credito a { color: #8a8a8a; text-decoration: none; }
 .pessoa > .lide { hyphens: none; -webkit-hyphens: none; text-align: left; }
 .vitima > .polaroid + p, .vitima > .foto-link + p, .vitima > .polaroid + .colagem + p { margin-top: 1.1rem; }
+
+.rodape { position: relative; z-index: 1; max-width: 46rem; margin: 2rem auto 0; padding: 1.6rem 1.5rem 1.4rem; text-align: center; border-top: 1px solid #1e1e1e; }
+.rodape p { font-size: .74rem; line-height: 1.65; color: #8a8a8a; text-align: center; hyphens: none; }
