@@ -509,3 +509,20 @@ section.desdobramentos { max-width: 43rem; margin: 5rem auto 4rem; padding: 2.6r
 
 .rodape { position: relative; z-index: 1; max-width: 46rem; margin: 2rem auto 0; padding: 1.6rem 1.5rem 1.4rem; text-align: center; border-top: 1px solid #1e1e1e; }
 .rodape p { font-size: .74rem; line-height: 1.65; color: #8a8a8a; text-align: center; hyphens: none; }
+
+main.cinema { position: relative; z-index: 1; }
+.rodape a { color: #b5b5b5; text-decoration: underline; text-underline-offset: 3px; }
+.rodape a:hover, .rodape a:focus-visible { color: #fff; }
+.pagina-sobre { position: relative; z-index: 1; }
+.pagina-sobre .lide-audio { max-width: 40rem; color: #cfcfcf; }
+.pagina-sobre .painel { margin: 1.4rem 0; padding: 1.4rem 1.6rem; }
+.pagina-sobre h2 { font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); margin: 0 0 .8rem; }
+.pagina-sobre .ficha { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1.2rem; margin: 1rem 0 0; }
+.pagina-sobre .ficha dt { color: #8a8a8a; }
+.pagina-sobre .ficha dd { margin: 0; }
+.pagina-sobre .formatos { padding-left: 1.2rem; }
+.pagina-sobre .formatos li { margin: .5rem 0; }
+.pagina-sobre a { color: #e2e2e2; }
+@media (max-width: 720px) { .pagina-sobre .painel { padding: 1rem; } }
+.pagina-sobre h1 { margin-bottom: 1.2rem; }
+.pagina-sobre .ficha { margin-bottom: 1.2rem; } .pagina-sobre .painel p { hyphens: none; }
